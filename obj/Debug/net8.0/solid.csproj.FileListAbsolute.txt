@@ -1,0 +1,15 @@
+/media/nafis-ahamed/OS/CPS/solid/bin/Debug/net8.0/solid
+/media/nafis-ahamed/OS/CPS/solid/bin/Debug/net8.0/solid.deps.json
+/media/nafis-ahamed/OS/CPS/solid/bin/Debug/net8.0/solid.runtimeconfig.json
+/media/nafis-ahamed/OS/CPS/solid/bin/Debug/net8.0/solid.dll
+/media/nafis-ahamed/OS/CPS/solid/bin/Debug/net8.0/solid.pdb
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/solid.GeneratedMSBuildEditorConfig.editorconfig
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/solid.AssemblyInfoInputs.cache
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/solid.AssemblyInfo.cs
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/solid.csproj.CoreCompileInputs.cache
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/solid.sourcelink.json
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/solid.dll
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/refint/solid.dll
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/solid.pdb
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/solid.genruntimeconfig.cache
+/media/nafis-ahamed/OS/CPS/solid/obj/Debug/net8.0/ref/solid.dll
