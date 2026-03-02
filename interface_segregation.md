@@ -3,6 +3,8 @@
 
 <!-- push notification e Save method lagbe na but implement korte hole ditei hobe -->
 
+<!-- force fully give function at pushNotication  -->
+
 using System;
 
 public interface INotify
