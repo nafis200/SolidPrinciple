@@ -1,13 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 
-public interface INotify
+public interface Isend
 {
     public void sendMessage();
+}
+
+public interface Ilog
+{
     public void log();
+}
+
+public interface Isave
+{
     public void Save();
 }
 
-public class EmailNotify : INotify
+
+
+
+public class EmailNotify : Isend, Isave, Ilog
 {
     public string Email { get; set; }
     public void sendMessage()
@@ -28,7 +40,7 @@ public class EmailNotify : INotify
 
 
 
-public class SmsNotify : INotify
+public class SmsNotify : Isend, Isave, Ilog
 {
     public string MobileNumber { get; set; }
 
@@ -48,11 +60,11 @@ public class SmsNotify : INotify
     }
 }
 
-public class PushNotify : INotify
+public class PushNotify : Isend, Ilog
 {
-    public string Token {get; set;}
+    public string Token { get; set; }
 
-     public void sendMessage()
+    public void sendMessage()
     {
         Console.WriteLine($"Sending Token to {Token}");
     }
@@ -62,25 +74,32 @@ public class PushNotify : INotify
         Console.WriteLine("Log Email");
     }
 
-//    interface segregation problem solid rule violation
-    public void Save(){}
+
 
 }
 
 public class NotifyContext
 {
-    public INotify notify { get; set; }
+    public Isend Send { get; set; }
+    public Ilog log { get; set; }
 
-    public NotifyContext(INotify notify)
+    public Isave save { get; set; }
+
+    public NotifyContext(Isend Send, Ilog log, Isave save)
     {
-        this.notify = notify;
+        this.Send = Send;
+        this.log = log;
+        this.save = save;
     }
 
     public void Process()
     {
-        notify.sendMessage();
-        notify.log();
-        notify.Save();
+        Send.sendMessage();
+        log.log();
+        if (save != null)
+        {
+            save.Save();
+        }
     }
 }
 
@@ -89,34 +108,22 @@ class Program
 {
     static void Main(string[] args)
     {
-    
+        EmailNotify Emailnotifies = new EmailNotify{ Email= "nafisahamed14gmail.com" };
+        SmsNotify smsnotifies = new SmsNotify{ MobileNumber = "01922208141" };
+        PushNotify pushnotifies = new PushNotify{ Token = "abc" };
+
+        NotifyContext emailnotifier = new NotifyContext(Emailnotifies,Emailnotifies,Emailnotifies);
+        NotifyContext smsnotifier = new NotifyContext(smsnotifies,smsnotifies,smsnotifies);
+        NotifyContext pushnotifier = new NotifyContext(pushnotifies, pushnotifies, null);
+
         IList<NotifyContext> notifies = new List<NotifyContext>();
-
-        INotify emailNotify = new EmailNotify
-        {
-            Email = "nafis@gmail.com"
-        };
-
-
-
-        INotify smsNotify = new SmsNotify { MobileNumber = "01922208141" };
-
-        INotify pushNotify = new PushNotify{Token ="abcd"};
-
-
-        NotifyContext emailNotifyContext = new NotifyContext(emailNotify);
-
-        NotifyContext smsNotifyContext = new NotifyContext(smsNotify);
-
-        NotifyContext pushNotifyContext = new NotifyContext(pushNotify);
-
-        notifies.Add(emailNotifyContext);
-        notifies.Add(smsNotifyContext);
-        notifies.Add(pushNotifyContext);
+        notifies.Add(emailnotifier);
+        notifies.Add(smsnotifier);
+        notifies.Add(pushnotifier);
 
         foreach (var item in notifies)
-        { 
-            item.Process();  
+        {    
+             item.Process();
         }
 
     }
