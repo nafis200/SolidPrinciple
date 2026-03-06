@@ -41,6 +41,23 @@ public class SMSNotification : INotification
     }
 }
 
+public class whatsAppNotification : INotification
+{
+    public void send()
+    {
+        Console.WriteLine("WhatsApp Send");
+    }
+    public void log()
+    {
+        Console.WriteLine("WhatsApp log");
+    }
+
+    public void save()
+    {
+       Console.WriteLine("WhatsApp Save");   
+    }
+}
+
 class Program
 {
     static void Main(string[] args)
@@ -57,6 +74,14 @@ class Program
        Smsnotification.send();
        Smsnotification.log();
        Smsnotification.save();
+     
+       INotification whatsAppNotication = new whatsAppNotification();
+
+       whatsAppNotication.send();
+
+       whatsAppNotication.log();
+
+       whatsAppNotication.save();
 
     }
 }
