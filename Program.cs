@@ -1,128 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-
-public interface Isend
+﻿
+public interface INotification
 {
-    public void sendMessage();
+    void send();
+    void log();
+    void save();
 }
 
-public interface Ilog
+public class EmailNotification : INotification
 {
-    public void log();
-}
-
-public interface Isave
-{
-    public void Save();
-}
-
-
-
-
-public class EmailNotify : Isend, Isave, Ilog
-{
-    public string Email { get; set; }
-    public void sendMessage()
+    public void send()
     {
-        Console.WriteLine($"Sending Email to {Email}");
+        Console.WriteLine("Email Send");
     }
-
     public void log()
     {
-        Console.WriteLine("Log Email");
+        Console.WriteLine("Email log");
     }
 
-    public void Save()
+    public void save()
     {
-        Console.WriteLine("Email Save");
+       Console.WriteLine("Email Save");   
     }
 }
 
 
-
-public class SmsNotify : Isend, Isave, Ilog
+public class SMSNotification : INotification
 {
-    public string MobileNumber { get; set; }
-
-    public void sendMessage()
+      public void send()
     {
-        Console.WriteLine($"Sending SMS to {MobileNumber}");
+        Console.WriteLine("Sms Send");
     }
-
     public void log()
     {
-        Console.WriteLine("Log Email");
+        Console.WriteLine("Sms log");
     }
 
-    public void Save()
+    public void save()
     {
-        Console.WriteLine("Email Save");
+       Console.WriteLine("Sms Save");   
     }
 }
-
-public class PushNotify : Isend, Ilog
-{
-    public string Token { get; set; }
-
-    public void sendMessage()
-    {
-        Console.WriteLine($"Sending Token to {Token}");
-    }
-
-    public void log()
-    {
-        Console.WriteLine("Log Email");
-    }
-
-}
-
-public class NotifyContext
-{
-    public Isend Send { get; set; }
-    public Ilog log { get; set; }
-
-    public Isave save { get; set; }
-
-    public NotifyContext(Isend Send, Ilog log, Isave save)
-    {
-        this.Send = Send;
-        this.log = log;
-        this.save = save;
-    }
-
-    public void Process()
-    {
-        Send.sendMessage();
-        log.log();
-        if (save != null)
-        {
-            save.Save();
-        }
-    }
-}
-
 
 class Program
 {
     static void Main(string[] args)
     {
-        EmailNotify Emailnotifies = new EmailNotify{ Email= "nafisahamed14gmail.com" };
-        SmsNotify smsnotifies = new SmsNotify{ MobileNumber = "01922208141" };
-        PushNotify pushnotifies = new PushNotify{ Token = "abc" };
+       
+       INotification Emailnotification = new EmailNotification();
 
-        NotifyContext emailnotifier = new NotifyContext(Emailnotifies,Emailnotifies,Emailnotifies);
-        NotifyContext smsnotifier = new NotifyContext(smsnotifies,smsnotifies,smsnotifies);
-        NotifyContext pushnotifier = new NotifyContext(pushnotifies, pushnotifies, null);
+       Emailnotification.send();
+       Emailnotification.log();
+       Emailnotification.save();
 
-        IList<NotifyContext> notifies = new List<NotifyContext>();
-        notifies.Add(emailnotifier);
-        notifies.Add(smsnotifier);
-        notifies.Add(pushnotifier);
+       INotification Smsnotification = new SMSNotification();
 
-        foreach (var item in notifies)
-        {    
-             item.Process();
-        }
+       Smsnotification.send();
+       Smsnotification.log();
+       Smsnotification.save();
 
     }
 }

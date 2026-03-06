@@ -163,8 +163,6 @@ public class PushNotify : Isend, Ilog
         Console.WriteLine("Log Email");
     }
 
-
-
 }
 
 public class NotifyContext
