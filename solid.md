@@ -229,3 +229,59 @@ class Program
     }
 }
 
+
+<!-- D == dependency inversion principle -->
+
+
+
+using System;
+
+public class Student
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+}
+
+public class StudentRepository
+{
+    public void AddStudent(Student student)
+    {
+        Console.WriteLine($"Student Name: {student.Name}");
+    }
+}
+ 
+public class StudentService{
+    private StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository)
+    {
+        this.studentRepository = studentRepository;
+    }
+
+    public void AddStudent(Student student)
+    {
+          studentRepository.AddStudent(student);
+    }
+
+
+}
+
+class Program
+{
+    static void Main(string[] args)
+    {
+      StudentRepository studentRepository = new StudentRepository();
+
+      StudentService studentService = new StudentService(studentRepository);
+
+      Student student = new Student
+      {
+          Name = "nafis",
+          Email = "n@gmail.com",
+          Phone = "019xxxxx"
+      };
+
+      studentService.AddStudent(student);
+    }
+}

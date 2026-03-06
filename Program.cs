@@ -1,128 +1,90 @@
 ﻿
-public interface INotification
+using System;
+
+public class Student
 {
-    void send();
-    void log();
-    void save();
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public int Id { get; set; }
 }
 
-
-public interface Isend
+public interface IStudentRepository
 {
-    public void send();
+    void AddStudent(Student student);
+    void UpdateStudent(Student student);
+
+    void DeleteStudent(int Id);
 }
 
-public interface Ilog
+public class StudentRepository : IStudentRepository
 {
-    public void log();
-}
-
-public interface Isave
-{
-    public void save();
-}
-
-
-public class EmailNotification : Isend,Ilog,Isave
-{
-    public void send()
+    public void AddStudent(Student student)
     {
-        Console.WriteLine("Email Send");
+        Console.WriteLine($"Student Name: {student.Name}");
     }
-    public void log()
+    public void UpdateStudent(Student student)
     {
-        Console.WriteLine("Email log");
+        Console.WriteLine($"Student Name: {student.Name}");
     }
-
-    public void save()
+    public void DeleteStudent(int Id)
     {
-       Console.WriteLine("Email Save");   
+        Console.WriteLine($"Student {Id} is delete");
     }
 }
 
-
-public class SMSNotification : Isend,Ilog,Isave
+public interface IStudentService
 {
-      public void send()
-    {
-        Console.WriteLine("Sms Send");
-    }
-    public void log()
-    {
-        Console.WriteLine("Sms log");
-    }
+    void AddStudent(Student student);
 
-    public void save()
-    {
-       Console.WriteLine("Sms Save");   
-    }
+    void UpdateStudent(Student student);
+
+    void DeleteStudent(int Id);
 }
 
-public class whatsAppNotification : Isend,Ilog,Isave
+public class StudentService : IStudentService
 {
-    public void send()
+    private IStudentRepository studentRepository;
+
+    public StudentService(IStudentRepository studentRepository)
     {
-        Console.WriteLine("WhatsApp Send");
-    }
-    public void log()
-    {
-        Console.WriteLine("WhatsApp log");
+        this.studentRepository = studentRepository;
     }
 
-    public void save()
+    public void AddStudent(Student student)
     {
-       Console.WriteLine("WhatsApp Save");   
+        studentRepository.AddStudent(student);
     }
-}
 
+    public void UpdateStudent(Student student)
+    {
+        studentRepository.UpdateStudent(student);
+    }
+    public void DeleteStudent(int Id)
+    {
+        studentRepository.DeleteStudent(Id);
+    }
 
-public class PushNotification : Isend,Ilog
-{
-    public void send()
-    {
-        Console.WriteLine("Push Send");
-    }
-    public void log()
-    {
-        Console.WriteLine("Push log");
-    }
 
 }
-
-
-public class NotificationContext
-{
-    private Isend send {get;set;}
-    private Ilog log{get;set;}
-
-    private Isave save{get;set;}
-
-    public NotificationContext(Isend send, Ilog log, Isave save)
-    {
-        this.send = send;
-        this.log = log;
-        this.save = save;
-    }
-
-    public void process()
-    {
-        send.send();
-        log.log();
-        if(save != null)
-        {
-            save.save();
-        }
-    }
-}
-
-
 
 class Program
 {
     static void Main(string[] args)
     {
-       NotificationContext emailNotifyContext = new NotificationContext(new EmailNotification(),new EmailNotification(),new EmailNotification());
+        IStudentRepository studentRepository = new StudentRepository();
 
-       emailNotifyContext.process();
+        IStudentService studentService = new StudentService(studentRepository);
+
+        Student student = new Student
+        {
+            Name = "nafis",
+            Email = "n@gmail.com",
+            Phone = "019xxxxx"
+        };
+
+        studentService.AddStudent(student);
+        studentService.UpdateStudent(student);
+        studentService.DeleteStudent(10);
     }
 }
