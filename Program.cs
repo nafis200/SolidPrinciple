@@ -6,7 +6,24 @@ public interface INotification
     void save();
 }
 
-public class EmailNotification : INotification
+
+public interface Isend
+{
+    public void send();
+}
+
+public interface Ilog
+{
+    public void log();
+}
+
+public interface Isave
+{
+    public void save();
+}
+
+
+public class EmailNotification : Isend,Ilog,Isave
 {
     public void send()
     {
@@ -24,7 +41,7 @@ public class EmailNotification : INotification
 }
 
 
-public class SMSNotification : INotification
+public class SMSNotification : Isend,Ilog,Isave
 {
       public void send()
     {
@@ -41,7 +58,7 @@ public class SMSNotification : INotification
     }
 }
 
-public class whatsAppNotification : INotification
+public class whatsAppNotification : Isend,Ilog,Isave
 {
     public void send()
     {
@@ -58,30 +75,54 @@ public class whatsAppNotification : INotification
     }
 }
 
+
+public class PushNotification : Isend,Ilog
+{
+    public void send()
+    {
+        Console.WriteLine("Push Send");
+    }
+    public void log()
+    {
+        Console.WriteLine("Push log");
+    }
+
+}
+
+
+public class NotificationContext
+{
+    private Isend send {get;set;}
+    private Ilog log{get;set;}
+
+    private Isave save{get;set;}
+
+    public NotificationContext(Isend send, Ilog log, Isave save)
+    {
+        this.send = send;
+        this.log = log;
+        this.save = save;
+    }
+
+    public void process()
+    {
+        send.send();
+        log.log();
+        if(save != null)
+        {
+            save.save();
+        }
+    }
+}
+
+
+
 class Program
 {
     static void Main(string[] args)
     {
-       
-       INotification Emailnotification = new EmailNotification();
+       NotificationContext emailNotifyContext = new NotificationContext(new EmailNotification(),new EmailNotification(),new EmailNotification());
 
-       Emailnotification.send();
-       Emailnotification.log();
-       Emailnotification.save();
-
-       INotification Smsnotification = new SMSNotification();
-
-       Smsnotification.send();
-       Smsnotification.log();
-       Smsnotification.save();
-     
-       INotification whatsAppNotication = new whatsAppNotification();
-
-       whatsAppNotication.send();
-
-       whatsAppNotication.log();
-
-       whatsAppNotication.save();
-
+       emailNotifyContext.process();
     }
 }

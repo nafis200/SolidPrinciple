@@ -1,85 +1,4 @@
-<!-- solid -->
-
-<!-- S == Single responsiblity Principle -->
-
-
-
-public class Student
-{
-    public void ShowInfo()
-    {
-        Console.WriteLine("student Info");
-    }
-
-    public void AddStudents()
-    {
-        Console.WriteLine("Add student");
-    }
-
-    public void EnrollCourse()
-    {
-        Console.WriteLine("enrolled course");
-    }
-
-    public void Paytution()
-    {
-        Console.WriteLine("Tution Paid");
-    }
-
-    public void EmailNotification()
-    {
-        Console.WriteLine("EmailNotication");
-    }
-}
-
-
-<!-- violet single responsibility prinicple -->
-
-<!-- now solve this -->
-
-
-public class Payment
-{
-    public void Paytution()
-    {
-        Console.WriteLine("Tution Paid");
-    }
-}
-
-public class Notification
-{
-    public void EmailNotification()
-    {
-        Console.WriteLine("EmailNotication");
-    }
-}
-
-public class Course
-{
-    public void EnrollCourse()
-    {
-        Console.WriteLine("enrolled course");
-    }
-}
-
-public class Student
-{
-    public void ShowInfo()
-    {
-        Console.WriteLine("student Info");
-    }
-
-    public void AddStudents()
-    {
-        Console.WriteLine("Add student");
-    }
-
-}
-
-<!-- Solve this -->
-
-
-<!-- 2 open closed priciple -->
+<!-- dry violate -->
 
 
 
@@ -142,24 +61,98 @@ public class whatsAppNotification : INotification
     }
 }
 
+class Program
+{
+    static void Main(string[] args)
+    {
+       
+       INotification Emailnotification = new EmailNotification();
 
-public class PushNotification : INotification
+       Emailnotification.send();
+       Emailnotification.log();
+       Emailnotification.save();
+
+       INotification Smsnotification = new SMSNotification();
+
+       Smsnotification.send();
+       Smsnotification.log();
+       Smsnotification.save();
+     
+       INotification whatsAppNotication = new whatsAppNotification();
+
+       whatsAppNotication.send();
+
+       whatsAppNotication.log();
+
+       whatsAppNotication.save();
+
+    }
+}
+
+<!-- Dry violates -->
+
+
+<!-- solve this -->
+
+
+public interface INotification
+{
+    void send();
+    void log();
+    void save();
+}
+
+public class EmailNotification : INotification
 {
     public void send()
     {
-        Console.WriteLine("Push Send");
+        Console.WriteLine("Email Send");
     }
     public void log()
     {
-        Console.WriteLine("Push log");
+        Console.WriteLine("Email log");
     }
 
     public void save()
     {
-       Console.WriteLine("Push Save");   
+       Console.WriteLine("Email Save");   
     }
 }
 
+
+public class SMSNotification : INotification
+{
+      public void send()
+    {
+        Console.WriteLine("Sms Send");
+    }
+    public void log()
+    {
+        Console.WriteLine("Sms log");
+    }
+
+    public void save()
+    {
+       Console.WriteLine("Sms Save");   
+    }
+}
+
+public class whatsAppNotification : INotification
+{
+    public void send()
+    {
+        Console.WriteLine("WhatsApp Send");
+    }
+    public void log()
+    {
+        Console.WriteLine("WhatsApp log");
+    }
+
+    public void save()
+    {
+       Console.WriteLine("WhatsApp Save");   
+    }
+}
 
 public class NotificationContext
 {
@@ -177,8 +170,6 @@ public class NotificationContext
         notification.save();
     }
 }
-
-
 
 class Program
 {
@@ -212,14 +203,6 @@ class Program
 
        notificationContext.process();
 
-       INotification pushnotification = new PushNotification();
-       notificationContext = new NotificationContext(pushnotification);
-
-       notificationContext.process();
-
-       
-
-
     //    whatsAppNotication.send();
 
     //    whatsAppNotication.log();
@@ -228,4 +211,3 @@ class Program
 
     }
 }
-
